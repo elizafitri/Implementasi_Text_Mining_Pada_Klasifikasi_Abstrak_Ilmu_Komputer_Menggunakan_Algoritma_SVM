@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Token extends Model
 {
-    protected $table = 'tokens';
+    protected $table = 'new_tokens';
     protected $fillable = [
         'token'
     ];
 
-    public function vector()
+    public function tf()
     {
-        return $this->hasMany('App\vector', 'id_term');
+        return $this->hasMany('App\tf');
     }
 }

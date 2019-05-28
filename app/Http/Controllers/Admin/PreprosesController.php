@@ -11,9 +11,12 @@ use App\Token;
 use App\hasil_token;
 use App\table_vector;
 use markfullmer\porter2\Porter2;
-//use Phpml\FeatureExtraction\TfIdfTransformer;
+// use Phpml\FeatureExtraction\TfIdfTransformer;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
 use DB;
-use App\Vector;
+use App\vector;
+use App\tf;
 
 define('WORD_BOUNDARY', "[^a-zA-Z']+");
 
@@ -179,10 +182,10 @@ class PreprosesController extends Controller
         }  
               
         for ($i=0; $i < count($token_array); $i++) { 
-            $cek = DB::table('hasil_tokens')->select('token')->where('token', $token_array[$i])->count();
+            $cek = DB::table('tokens')->select('token')->where('token', $token_array[$i])->count();
             if ($cek < 1) {
                 //untuk mengecek jika kata hasil token belum ditampung 
-                Hasil_token::insert($token_array[$i]);
+                Token::insert($token_array[$i]);
             }
         }          
         
@@ -218,10 +221,10 @@ class PreprosesController extends Controller
         }
 
         for ($i=0; $i < count($input_array); $i++) { 
-            $cek = DB::table('hasil_tokens')->select('token')->where('token', $input_array[$i])->count();
+            $cek = DB::table('tokens')->select('token')->where('token', $input_array[$i])->count();
             if ($cek < 1) {
                 //untuk mengecek jika kata hasil token belum ditampung 
-                Hasil_token::insert($input_array[$i]);
+                Token::insert($input_array[$i]);
             }
         } 
         // Hasil_token::insert($input_array);
@@ -234,17 +237,16 @@ class PreprosesController extends Controller
         // $jajal = Token::all();
         $jajal = Hasil_token::all();
         $jurnal = Klasifikasi::all();
-        
         // $jurnal = Klasifikasi::find(1);
         // $abstrak = $jurnal->preproses;
         // // $pre = $this->preproses($abstrak);
         // $token = explode(" ", $abstrak);
-        // print_r($token);
     
         return view('admin.vector')->with([
             // 'cinta' => $cinta,
             'jajal' =>$jajal,
-            'jurnal' => $jurnal
+            'jurnal' => $jurnal,
+            'bobot' => $bobot
             // 'token' => $token,
             // 'array' => $array,
             // 'controller' => $this
@@ -297,6 +299,17 @@ class PreprosesController extends Controller
             'jurnal' => $jurnal
         ]);
         
+    }
+
+    public function vectorPre($id)
+    {
+        $jurnal = Klasifikasi::where('id', $id)->first();
+        $kata = $jurnal->abstrak;
+        // $abstrak = $this->preproses($kata);
+
+        return view('admin.vectordoc')->with([
+            'jurnal' => $jurnal
+        ]);
     }
 
     public function tampilPre()
@@ -430,44 +443,52 @@ class PreprosesController extends Controller
         return implode('', $words);
     }
 
-    public function bobot()
+    public function saveBobot(Request $r)
     {
-        // $tf =
-        // $df =
-    }
 
-        public function hitungbobot() { 
-            //berapa jumlah DocId total?, n 
-            // $resn = mysql_query("SELECT DISTINCT DocId FROM tbindex"); 
-            // $n = mysql_num_rows($resn); 
-
-            //ambil setiap record dalam tabel tbindex 
-            //hitung bobot untuk setiap Term dalam setiap DocId 
-            // $resBobot = mysql_query("SELECT * FROM tbindex ORDER BY Id"); 
-            // $num_rows = mysql_num_rows($resBobot); 
-            // print("Terdapat " . $num_rows . " Term yang diberikan bobot. <br />"); 
-
-            while($rowbobot = mysql_fetch_array($resBobot)) { 
-                //$w = tf * log (n/N)
-                 $term = $rowbobot['Term']; 
-                 $tf = $rowbobot['Count']; 
-                 $id = $rowbobot['Id']; 
-                //berapa jumlah dokumen yang mengandung term itu?, N 
-                $resNTerm = mysql_query("SELECT Count(*) as N                         
-                                         FROM tbindex WHERE Term = '$term'"); 
-                $rowNTerm = mysql_fetch_array($resNTerm); 
-                $NTerm = $rowNTerm['N']; 
-                $w = $tf * log($n/$NTerm); 
-            //update bobot dari term tersebut 
-            $resUpdateBobot = mysql_query("UPDATE tbindex                          
-                                           SET Bobot = $w WHERE Id = $id");   
-            } //end while $rowbobot
+        $input = Input::all();
+        $tf_array = [];
+        $id_doc = $input['id_doc'];
+        foreach ($id_doc as $key => $id_doc) {
+            $tf_array[] = [
+                'id_term' => $input['id_term'][$key],
+                'id_doc' => $input['id_doc'][$key],
+                'indeks' => $input['indeks'][$key],
+                'tf' => $input['tf'][$key]
+            ];
+            # code...
         }
-    
+
+        // dd($tf_array);
+        tf::insert($tf_array);
+        return back()->withInput();
+        // $tf = \App\tf::create([
+        //     'id_term' => request()->get('id_term'),
+        //     'id_doc' => request()->get('id_doc'),
+        //     'indeks' => request()->get('indeks'),
+        //     'tf' => request()->get('tf')
+        // ]);
+
+        // $df = \App\df::create([
+        //     'id_term' => request()->get('id_term'),
+        //     'df' => request()->get('df')
+        // ]);
+
+        // return redirect()->route('');
     }
 
-    // public function pembobotan()
-    // {
-    //     $transformer = new TfIdfTransformer($samples);
-    //     $transformer->transform($samples);
-    // }
+    public function bobot($id)
+    {
+        $token = Token::all();
+        $abstrak = Klasifikasi::find($id);
+        $preproses = $abstrak->preproses;
+        $tokenisasi = explode(" ", $preproses);
+
+        return view('admin.vectordoc')->with([
+            'abstrak' => $abstrak,
+            'tokenisasi' => $tokenisasi,
+            'token' => $token
+        ]);
+
+    }
+}

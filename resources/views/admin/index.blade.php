@@ -58,6 +58,7 @@
                                                 <a href="{{ route('jurnal.delete', ['id' => $jurkom->id]) }}"><button class="btn btn-danger" href="#"><i class="fa fa-trash"></i></button></a>
                                                 <a href="{{ route('preproses.preproses', ['id' => $jurkom->id]) }}"><button class="btn btn-warning" href="#"><i class="fa fa-eye"></i></button></a>
                                                 <a href="{{ route('edit.pre', ['id' => $jurkom->id]) }}"><button class="btn btn-success" href="#"><i class="fa fa-pencil"></i> Preproses </button></a>
+                                                <a href="{{ route('bobot', ['id' => $jurkom->id]) }}"><button class="btn btn-success" href="#"><i class="fa fa-pencil"></i> Lihat Vector </button></a>
                                             </td>
                                         </tr>
 

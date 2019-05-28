@@ -22,9 +22,8 @@
             <thead>
             <tbody>
                 <?php $no=0; ?>
-                <?php $count = 0; ?>
                 @foreach ($jajal as $item)
-                    <?php $no++ ?>
+                    <?php $no++?>
                     <tr>
                         <td>{{$no}}</td>
                         <td>{{$item->token}}</td>
@@ -35,13 +34,13 @@
                             <?php
                                     $abstrak = $jur->preproses;
                                     $token = explode(" ", $abstrak);  
-                                    $id =$jur->id;
+                                    $id = $jur->id;
                                     $data = array_unique($token);
                                     $tooo = array_keys($data, $item->token);
                                     $to = array_keys($token, $item->token);
-                                    $too = implode(",", $to);
+                                    $too = implode(",", $to);        
                             ?>
-
+                            
                             <?php $df = 0 ?>
                                 @for($i = 0 ; $i < count($tooo); $i++)
                                 D{{$id}}:[{{ $too }}];
@@ -50,7 +49,7 @@
                             </textarea>
                             {{-- <input type="text" value="{{ $df  }}"> --}}
                         </td>
-                    </tr>
+                    </tr> 
                 @endforeach
             </tbody>
             </thead>

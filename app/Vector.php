@@ -4,16 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Vector extends Model
+class vector extends Model
 {
-    protected $table = 'table_vectors';
+    protected $table = 'vectors';
     protected $fillable = [
-        'id_term','vector_doc','total_vector'
+        'id_term','id_doc','vector_doc','tf'
     ];
 
-    
-    public function token ()
+    public function hasil_token()
     {
-        return $this->belongsTo('App\Token', 'id_term');
+        return $this->belongsTo('App\hasil_token', 'id_term');
     }
 }

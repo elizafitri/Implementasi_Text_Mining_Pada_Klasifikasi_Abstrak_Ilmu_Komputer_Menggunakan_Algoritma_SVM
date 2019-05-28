@@ -15,4 +15,9 @@ class Klasifikasi extends Model
     {
         return $this->belongsTo('App\Keilmuan', 'id_keilmuan');
     }
+
+    public function tf()
+    {
+        return $this->hasMany('App\tf');
+    }
 }
