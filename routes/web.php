@@ -64,6 +64,9 @@ Route::get('/delete/{id}', 'Admin\PreprosesController@delete')->name('jurnal.del
 //ini untuk menampilkan form untuk preproses dokumen dengan parameter id
 Route::get('/preproses/{id}', 'Admin\PreprosesController@editPre')->name('edit.pre');
 
+//ini untuk menampilkan form untuk preproses dokumen dengan parameter id
+Route::get('/preproses/vector/{id}', 'Admin\PreprosesController@vectorPre')->name('vector.pre');
+
 //ini yang bener za!
 Route::get('/preproses/preproses/{id}', 'Admin\PreprosesController@preproses')->name('preproses.preproses');
 
@@ -95,6 +98,9 @@ Route::get('/tampilpre', 'Admin\PreprosesController@tampilPre');
 
 //coba snowball library
 Route::get('/snow', 'Admin\PreprosesController@cobasnow')->name('cobasnow');
+
+Route::get('/bobot-index/{id}', 'Admin\PreprosesController@bobot')->name('bobot');
+Route::post('/bobot-index/save', 'Admin\PreprosesController@saveBobot')->name('bobot.save');
 
 
 
