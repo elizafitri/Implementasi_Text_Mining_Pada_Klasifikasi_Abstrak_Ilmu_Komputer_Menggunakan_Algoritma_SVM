@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Input;
 use DB;
 use App\vector;
 use App\tf;
+use App\df;
 
 define('WORD_BOUNDARY', "[^a-zA-Z']+");
 
@@ -457,32 +458,20 @@ class PreprosesController extends Controller
                 'tf' => $input['tf'][$key]
             ];
         }
-
-        $df_array = [];
-        foreach ($id_term as $key => $id_term) {
-            $df_array[] = [
-                'id_term' => $input['id_term'][$key],
-                'df' => $input['df'][$key]
-            ];
-        }
-
+        
+        for ($i=0; $i < count($tf_array); $i++) { 
+            $cek = DB::table('tf')->where([
+                ['id_term', '=', $tf_array[$i]],
+                ['id_doc', '=', $tf_array[$i]]
+            ])->count();
+            if ($cek < 1) {
+                //untuk mengecek jika kata hasil token belum ditampung 
+                tf::insert($tf_array[$i]);
+            }
+        } 
         // dd($tf_array);
-        tf::insert($tf_array);
-        // df::insert($df_array);
+        // tf::insert($tf_array);
         return back()->withInput();
-        // $tf = \App\tf::create([
-        //     'id_term' => request()->get('id_term'),
-        //     'id_doc' => request()->get('id_doc'),
-        //     'indeks' => request()->get('indeks'),
-        //     'tf' => request()->get('tf')
-        // ]);
-
-        // $df = \App\df::create([
-        //     'id_term' => request()->get('id_term'),
-        //     'df' => request()->get('df')
-        // ]);
-
-        // return redirect()->route('');
     }
 
     public function bobot($id)
@@ -491,7 +480,7 @@ class PreprosesController extends Controller
         $abstrak = Klasifikasi::find($id);
         $preproses = $abstrak->preproses;
         $tokenisasi = explode(" ", $preproses);
-        // idf(term) = log(D/df) dimana df adl jumlah dokumen yang mengandung suatu term
+        //idf(term) = log(D/df) dimana df adl jumlah dokumen yang mengandung suatu term
         // tfidf = tf x idf
 
         return view('admin.vectordoc')->with([
@@ -500,5 +489,88 @@ class PreprosesController extends Controller
             'token' => $token
         ]);
 
+    }
+
+    public function bobotDf($id)
+    {
+        $abstrak = Klasifikasi::all();
+        $term = Token::find($id);
+
+        return view('admin.vectordoc')->with([
+
+        ]);
+
+    }
+
+    public function viewDF()
+    {
+        $term = Token::all();
+
+        return view ('admin.df')->with([
+            'term' => $term
+        ]);
+
+        // $break = 0;
+        // foreach ($term as $key => $value) {
+        //     // if($break == 100) break;{
+        //         $tf = $value->id;
+        //         $df = tf::where('id_term', $tf)->get();
+
+        //         echo $df->count().'------'.$tf.'<br>';
+        //     // }
+        //     // $break++;
+        //     # code...
+        // }
+        // # code...
+    }
+
+    public function saveDf(Request $r)
+    {
+        $input = Input::all();
+        $df_array = [];
+        $id_term = $input['id_term'];
+        foreach ($id_term as $key => $id_term) {
+            $df_array[] = [
+                'id_term' => $input['id_term'][$key],
+                'df' => $input['df'][$key],
+            ];
+        }
+
+        for ($i=0; $i < count($df_array); $i++) { 
+            $cek = DB::table('df')->where('id_term', $df_array[$i])->count();
+            if ($cek < 1) {
+                //untuk mengecek jika kata hasil token belum ditampung 
+                df::insert($df_array[$i]);
+                // dd($df_array[$i]);
+            }
+        } 
+        // dd($df_array);
+        // tf::insert($tf_array);
+        return back()->withInput();
+        # code...
+    }
+
+    //idf(term) = log(D/df) dimana df adl jumlah dokumen yang mengandung suatu term
+    // tfidf = tf x idf
+
+    public function idf()
+    {
+        $d = 144;
+        $df = df::all();
+
+        $break = 0;
+        foreach ($df as $key => $value) {
+            if($break == 1891) break;{
+                $df = $value->df;
+                $idf = log($d/$df);
+                if($idf != 0) {
+                    echo round($idf, 4).'<br>';
+                }
+            }
+            $break++;
+            # code...
+        }
+
+        # code...
     }
 }

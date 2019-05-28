@@ -51,7 +51,7 @@
                                             <td>{{ $jurkom->judul_jurnal }}</td>
                                             <td>{{ $jurkom->nama_penulis }}</td>
                                             <td>{{ $jurkom->keilmuan->kelas_keilmuan }}</td>
-                                            <td>{{ $jurkom->abstrak }}</td>
+                                            <td>{{ $jurkom->preproses }}</td>
                                             <td><span class="label label-primary">{{ $jurkom->kata_kunci }}</span></td>
                                             <td>
                                                 <a href="{{ route('edit', ['id' => $jurkom->id]) }}"><button class="btn btn-primary" href="#"><i class="fa fa-pencil"></i></button></a>

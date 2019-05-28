@@ -8,7 +8,7 @@ class df extends Model
 {
     protected $table = 'df';
     protected $fillable = [
-        'id_term', 'tf'
+        'id_term', 'df'
     ];
     
     //Foreign key 
