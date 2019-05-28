@@ -456,11 +456,19 @@ class PreprosesController extends Controller
                 'indeks' => $input['indeks'][$key],
                 'tf' => $input['tf'][$key]
             ];
-            # code...
+        }
+
+        $df_array = [];
+        foreach ($id_term as $key => $id_term) {
+            $df_array[] = [
+                'id_term' => $input['id_term'][$key],
+                'df' => $input['df'][$key]
+            ];
         }
 
         // dd($tf_array);
         tf::insert($tf_array);
+        // df::insert($df_array);
         return back()->withInput();
         // $tf = \App\tf::create([
         //     'id_term' => request()->get('id_term'),
@@ -483,6 +491,8 @@ class PreprosesController extends Controller
         $abstrak = Klasifikasi::find($id);
         $preproses = $abstrak->preproses;
         $tokenisasi = explode(" ", $preproses);
+        // idf(term) = log(D/df) dimana df adl jumlah dokumen yang mengandung suatu term
+        // tfidf = tf x idf
 
         return view('admin.vectordoc')->with([
             'abstrak' => $abstrak,
