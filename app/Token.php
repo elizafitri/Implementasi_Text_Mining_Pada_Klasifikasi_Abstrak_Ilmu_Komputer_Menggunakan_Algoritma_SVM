@@ -15,4 +15,9 @@ class Token extends Model
     {
         return $this->hasMany('App\tf');
     }
+
+    public function idf()
+    {
+        return $this->hasMany('App\idf');
+    }
 }
