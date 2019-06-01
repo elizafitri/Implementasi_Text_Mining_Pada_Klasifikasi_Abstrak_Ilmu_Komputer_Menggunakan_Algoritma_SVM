@@ -105,7 +105,8 @@ Route::post('/bobot-index/save', 'Admin\PreprosesController@saveBobot')->name('b
 Route::get('/view-df', 'Admin\PreprosesController@viewDf')->name('view.df');
 Route::post('/save-df', 'Admin\PreprosesController@saveDf')->name('save.df');
 
-Route::get('/view-idf', 'Admin\PreprosesController@idf')->name('view.idf');
+Route::get('/view-idf', 'Admin\PreprosesController@viewIdf')->name('view.idf');
+Route::post('/save-idf', 'Admin\PreprosesController@saveIDF')->name('save.idf');
 
 
 

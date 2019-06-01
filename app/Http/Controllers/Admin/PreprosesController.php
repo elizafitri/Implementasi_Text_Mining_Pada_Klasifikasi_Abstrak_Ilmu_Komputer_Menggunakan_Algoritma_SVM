@@ -18,6 +18,7 @@ use DB;
 use App\vector;
 use App\tf;
 use App\df;
+use App\idf;
 
 define('WORD_BOUNDARY', "[^a-zA-Z']+");
 
@@ -491,17 +492,6 @@ class PreprosesController extends Controller
 
     }
 
-    public function bobotDf($id)
-    {
-        $abstrak = Klasifikasi::all();
-        $term = Token::find($id);
-
-        return view('admin.vectordoc')->with([
-
-        ]);
-
-    }
-
     public function viewDF()
     {
         $term = Token::all();
@@ -553,24 +543,50 @@ class PreprosesController extends Controller
     //idf(term) = log(D/df) dimana df adl jumlah dokumen yang mengandung suatu term
     // tfidf = tf x idf
 
-    public function idf()
+    public function viewIdf()
     {
-        $d = 144;
+        $doc = 144;
         $df = df::all();
 
-        $break = 0;
-        foreach ($df as $key => $value) {
-            if($break == 1891) break;{
-                $df = $value->df;
-                $idf = log($d/$df);
-                if($idf != 0) {
-                    echo round($idf, 4).'<br>';
-                }
-            }
-            $break++;
-            # code...
+        return view ('admin.idf')->with([
+            'doc' => $doc,
+            'df' => $df
+        ]);
+
+        // $break = 0;
+        // foreach ($df as $key => $value) {
+        //     if($break == 1891) break;{
+        //         $df = $value->df;
+        //         $idf = log($d/$df);
+        //         if($idf != 0) {
+        //             echo round($idf, 4).'<br>';
+        //         }
+        //     }
+        //     $break++;
+        // }
+    }
+
+    public function saveIDF(Request $r)
+    {
+        $input = Input::all();
+        $idf_array = [];
+        $id_term = $input['id_term'];
+        foreach ($id_term as $key => $id_term) {
+            $idf_array[] = [
+                'id_term' => $input['id_term'][$key],
+                'idf' => $input['idf'][$key],
+            ];
         }
 
-        # code...
+        for ($i=0; $i < count($idf_array); $i++) { 
+            $cek = DB::table('idf')->where('id_term', $idf_array[$i])->count();
+            if ($cek < 1) {
+                //untuk mengecek jika kata hasil token belum ditampung 
+                idf::insert($idf_array[$i]);
+            }
+        }  
+        // dd($df_array);
+        // tf::insert($tf_array);
+        return back()->withInput();
     }
 }

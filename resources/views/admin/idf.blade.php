@@ -10,19 +10,19 @@
                 </div>
 
                 <div class="ibox-title">
-                    <h2>Menghitung Nilai DF</h2>
+                    <h2>Menghitung Nilai IDF</h2>
                     <div class="ibox-content">
                         
-                        <form action="{{ route('save.df') }}" method="post">
+                        <form action="{{ route('save.idf') }}" method="post">
                         {{ csrf_field() }}
                             <button class="btn btn-success">Simpan</button><hr>
-                            @foreach ($term as $ter)
-                                <?php $tf = $ter->id;?>
-                                <?php $df = \App\tf::where('id_term', $tf)->get(); ?>
-                
-                                <input type="text" value="{{ $tf }}" name="id_term[]">
-                                <input type="text" value="{{ $df->count() }}" name="df[]"><br>
-                                
+                            @foreach ($df as $d)
+                                <?php $id_term = $d->id;?>
+                                <?php $df = $d->df; ?> 
+                                <?php $idf = log($doc/$df); ?>
+
+                                <input type="text" value="{{ $id_term }}" name="id_term[]">
+                                <input type="text" value="{{ $idf }}" name="idf[]"><br>
                             @endforeach
                         </form>
                     </div>
