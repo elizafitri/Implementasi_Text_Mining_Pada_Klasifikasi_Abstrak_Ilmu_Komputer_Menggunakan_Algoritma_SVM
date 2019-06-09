@@ -19,6 +19,7 @@ use App\vector;
 use App\tf;
 use App\df;
 use App\idf;
+use App\tfidf;
 
 define('WORD_BOUNDARY', "[^a-zA-Z']+");
 
@@ -589,4 +590,20 @@ class PreprosesController extends Controller
         // tf::insert($tf_array);
         return back()->withInput();
     }
+
+    public function viewTfidf()
+    {
+        $tf = tf::all();
+        $idf = idf::all();
+
+        return view ('admin.tfidf')->with([
+            'tf' => $tf,
+            'idf' => $idf
+        ]);
+    }
+
+    // public function saveTfidf()
+    // {
+        
+    // }
 }

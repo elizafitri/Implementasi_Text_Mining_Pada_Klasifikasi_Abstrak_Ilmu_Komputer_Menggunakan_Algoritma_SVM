@@ -14,10 +14,10 @@ class CreateTfidfsTable extends Migration
     public function up()
     {
         Schema::create('tfidfs', function (Blueprint $table) {
-            $table->increments('id_bobot');
-            $table->unsignedInteger('id_doc');
-            $table->foreign('id_doc')->references('id')->on('klasifikasis')->onDelete('CASCADE');
-            $table->string('vector_term', 2000);
+            $table->increments('id');
+            $table->unsignedInteger('id_term');
+            $table->foreign('id_term')->references('id')->on('new_tokens')->onDelete('CASCADE');
+            $table->decimal('tfidf', 5, 4);
             $table->timestamps();
         });
     }

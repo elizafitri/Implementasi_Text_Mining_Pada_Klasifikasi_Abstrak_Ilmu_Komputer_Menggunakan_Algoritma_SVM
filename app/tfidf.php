@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class tfidf extends Model
 {
-    protected $table = 'tfidfs';
+    protected $table = 'tfidf';
     protected $fillable = [
-        'id_doc','vector_term'
+        'id_term', 'tfidf'
     ];
-  
-    public function keilmuan ()
+    
+    //Foreign key 
+    public function token ()
     {
-        return $this->belongsTo('App\Klasifikasi', 'id_doc');
+        return $this->hasMany('App\tokens', 'id');
     }
 }

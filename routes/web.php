@@ -108,5 +108,9 @@ Route::post('/save-df', 'Admin\PreprosesController@saveDf')->name('save.df');
 Route::get('/view-idf', 'Admin\PreprosesController@viewIdf')->name('view.idf');
 Route::post('/save-idf', 'Admin\PreprosesController@saveIDF')->name('save.idf');
 
+Route::get('/view-tfidf', 'Admin\PreprosesController@viewTfidf')->name('view.tfidf');
+Route::post('/save-tfidf', 'Admin\PreprosesController@saveTfidf')->name('save.tfidf');
+
+
 
 
