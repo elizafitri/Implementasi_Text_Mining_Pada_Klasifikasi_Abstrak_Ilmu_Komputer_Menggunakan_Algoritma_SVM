@@ -102,5 +102,7 @@ Route::get('/snow', 'Admin\PreprosesController@cobasnow')->name('cobasnow');
 Route::get('/bobot-index/{id}', 'Admin\PreprosesController@bobot')->name('bobot');
 Route::post('/bobot-index/save', 'Admin\PreprosesController@saveBobot')->name('bobot.save');
 
+Route::get('/view-df', 'Admin\PreprosesController@viewDF')->name('view.df');
+
 
 

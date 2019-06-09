@@ -429,7 +429,7 @@ class PreprosesController extends Controller
         // Split into words.
         $words = preg_split('/(' . WORD_BOUNDARY . '+)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
         if (!count($words)) {
-              return $text;
+            return $text;
         }
         
         // Process each word, skipping delimiters.
@@ -500,5 +500,23 @@ class PreprosesController extends Controller
             'token' => $token
         ]);
 
+    }
+
+    public function viewDF()
+    {
+        $token = Token::all();
+
+        $break = 0;
+        foreach ($token as $key => $value) {
+            // if ($break == 100) break;{
+                // echo $value->id.'<br>';
+                $tf = $value->id;
+                $df = tf::where('id_term', $tf)->get();
+
+                echo $df->count().'-'.$tf.'<br>';
+            // }
+
+            // $break++;
+        }
     }
 }
