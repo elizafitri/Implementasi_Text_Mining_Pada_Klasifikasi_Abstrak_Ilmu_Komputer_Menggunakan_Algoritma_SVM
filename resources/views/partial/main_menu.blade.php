@@ -24,6 +24,9 @@
             <li class="{{ Request::is('jurnal') ? 'active' : '' }}">
                 <a href="{{ route('jurnal') }}"><i class="fa fa-book"></i> <span class="nav-label">Manajemen Jurnal</span></a>
             </li>
+            <li class="{{ Request::is('data-token') ? 'active' : '' }}">
+                <a href="{{ route('data.token') }}"><i class="fa fa-book"></i> <span class="nav-label">Data Token</span></a>
+            </li>
         </ul>
         
     </div>

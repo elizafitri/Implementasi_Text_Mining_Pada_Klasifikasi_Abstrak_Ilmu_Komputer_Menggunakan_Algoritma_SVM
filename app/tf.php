@@ -20,4 +20,9 @@ class tf extends Model
     {
         return $this->belongsTo('App\Klasifikasi', 'id');
     }
+
+    public function df()
+    {
+        return $this->hasMany('App\df');
+    }
 }

@@ -116,6 +116,61 @@
 
 
     </script>
+    <script>
+        $(document).ready(function(){
+            var token = $('#token').DataTable();
+
+            $('#token').on('click', '.hapus', function(){
+                var id = $(this).data('id');
+                swal({
+                    title             : 'Konfirmasi',
+                    text              : "Anda ingin hapus Token?",
+                    type              : 'warning',
+                    showCancelButton  : true,
+                    confirmButtonText : 'Hapus',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor : '#3085d6',
+                    cancelButtonText  : 'Tidak',
+                    reverseButtons    : true
+                }).then((result) => {
+                    if (result.value) {
+                    $.ajax({
+                        url      : "{{ route('data.token.delete')}}",
+                        method   : "GET",
+                        beforSend: function() {
+                        swal({
+                            title : 'Menunggu',
+                            html  : 'Memproses data',
+                            onOpen: () => {
+                            swal.showLoading()
+                            }
+                        })
+                        },
+                        data    : {id:id},
+                        dataType: "JSON",
+                        success : function(data){
+                        swal({
+                                type : "success",
+                                title: "Hapus",
+                                text: "Kurikulum berhasil di hapus",
+                                showConfirmButton: false,
+                            });
+                            window.location.reload();
+                        }
+                    })
+                    } else if (result.dismiss === swal.DismissReason.cancel) {
+                        swal(
+                        'Batal',
+                        'Anda membatalkan menghapaus data',
+                        'error'
+                        )
+                    }
+                    })
+                    return false;
+                });
+
+        });
+    </script>  
 </body>
 
 

@@ -17,15 +17,14 @@
                         {{ csrf_field() }}
                             <button class="btn btn-success">Simpan</button><hr>
                             @foreach ($idf as $f)
-                                <?php $id_term = $f->id;?>
-                                <?php $tf = $f->tf;?>
-                                <?php $idf = $f->idf; ?> 
-                                <?php $tfidf = $tf*($idf+1); ?>
-
-                                <input type="text" value="{{ $id_term }}" name="id_term[]">
-                                <input type="text" value="{{ $tf }}" name="tf[]">
-                                <input type="text" value="{{ $idf }}" name="idf[]">
-                                <input type="text" value="{{ $tfidf }}" name="tfidf[]"><br>
+                                <?php 
+                                    $tf = $f->tf;
+                                    $idf = $f->idf;
+                                    $tfidf = ($tf*$idf);
+                                ?>
+                                
+                                <input type="text" value="{{ $tf }}" name="id_term[]">
+                                <input type="text" value="{{ round ($tfidf, 4) }}" name="tfidf[]"><br>
                             @endforeach
                         </form>
                     </div>

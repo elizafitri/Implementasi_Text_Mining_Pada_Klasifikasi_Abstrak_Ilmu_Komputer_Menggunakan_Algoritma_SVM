@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tfidf extends Model
 {
-    protected $table = 'tfidf';
+    protected $table = 'tfidfs';
     protected $fillable = [
         'id_term', 'tfidf'
     ];

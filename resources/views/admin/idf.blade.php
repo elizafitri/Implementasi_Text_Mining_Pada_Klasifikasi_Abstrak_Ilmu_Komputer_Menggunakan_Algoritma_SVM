@@ -22,7 +22,7 @@
                                 <?php $idf = log($doc/$df); ?>
 
                                 <input type="text" value="{{ $id_term }}" name="id_term[]">
-                                <input type="text" value="{{ $idf }}" name="idf[]"><br>
+                                <input type="text" value="{{ round ($idf,2) }}" name="idf[]"><br>
                             @endforeach
                         </form>
                     </div>

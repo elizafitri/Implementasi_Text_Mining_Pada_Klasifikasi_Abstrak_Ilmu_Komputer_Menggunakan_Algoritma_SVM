@@ -17,7 +17,7 @@ class CreateTfidfsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('id_term');
             $table->foreign('id_term')->references('id')->on('new_tokens')->onDelete('CASCADE');
-            $table->decimal('tfidf', 5, 4);
+            $table->decimal('tfidf');
             $table->timestamps();
         });
     }

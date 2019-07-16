@@ -11,9 +11,13 @@ class df extends Model
         'id_term', 'df'
     ];
     
-    //Foreign key 
-    public function token ()
+    // Foreign key 
+    // public function token ()
+    // {
+    //     return $this->hasMany('App\tokens', 'id_token');
+    // }
+    public function tf ()
     {
-        return $this->hasMany('App\tokens', 'id_token');
+        return $this->belongsTo('App\tf', 'id_term');
     }
 }

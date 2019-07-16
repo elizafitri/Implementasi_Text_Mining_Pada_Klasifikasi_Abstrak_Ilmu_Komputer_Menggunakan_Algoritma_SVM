@@ -82,8 +82,6 @@ class JurnalController extends Controller
     //menampilkan edit form dengan parameter id, paramater id ini
     //ngambilnya di route /edit/{id}, untuk mendapakan idnya
     // di herf di kasih parameter di button edit 
-    //kaya gini href="{{ route('edit', ['id' => $cinta->id]) }}" 
-    //cek aja di index.blade.php
     public function editForm($id)
     {
         $jurnal = Klasifikasi::where('id', $id)->first();

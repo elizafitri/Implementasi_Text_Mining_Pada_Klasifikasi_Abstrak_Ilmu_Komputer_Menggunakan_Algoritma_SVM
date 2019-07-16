@@ -17,10 +17,10 @@
                         {{ csrf_field() }}
                             <button class="btn btn-success">Simpan</button><hr>
                             @foreach ($term as $ter)
-                                <?php $tf = $ter->id;?>
+                                <?php $tf = $ter->id_term;?>
                                 <?php $df = \App\tf::where('id_term', $tf)->get(); ?>
                 
-                                <input type="text" value="{{ $tf }}" name="id_term[]">
+                                <input type="text" value="{{ $ter->id}}" name="id_term[]">
                                 <input type="text" value="{{ $df->count() }}" name="df[]"><br>
                                 
                             @endforeach

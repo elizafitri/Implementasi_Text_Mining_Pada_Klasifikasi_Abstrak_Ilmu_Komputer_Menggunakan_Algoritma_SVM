@@ -112,6 +112,10 @@ Route::post('/save-idf', 'Admin\PreprosesController@saveIDF')->name('save.idf');
 Route::get('/view-tfidf', 'Admin\PreprosesController@viewTfidf')->name('view.tfidf');
 Route::post('/save-tfidf', 'Admin\PreprosesController@saveTfidf')->name('save.tfidf');
 
+Route::get('/data-token', 'Admin\TokenController@index')->name('data.token');
+Route::get('/delete-token', 'Admin\TokenController@delete')->name('data.token.delete');
 
+Route::get('/cek', 'Admin\PreprosesController@cek');
+Route::get('/cek-vector', 'Admin\PreprosesController@vectorDoc')->name('cek.vector');
 
 

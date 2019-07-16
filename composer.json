@@ -13,6 +13,7 @@
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "markfullmer/porter2": "^1.0",
+        "nadar/stemming": "^1.0",
         "php-ai/php-ml": "^0.8.0",
         "voku/stop-words": "^2.0"
     },

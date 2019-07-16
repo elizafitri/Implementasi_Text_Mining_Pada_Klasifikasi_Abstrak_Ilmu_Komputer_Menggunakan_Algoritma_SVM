@@ -15,8 +15,8 @@ class CreateIdfTable extends Migration
     {
         Schema::create('idf', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_term');
-            $table->foreign('id_term')->references('id')->on('new_tokens')->onDelete('CASCADE');
+            // $table->unsignedInteger('id_term');
+            // $table->foreign('id_term')->references('id')->on('new_tokens')->onDelete('CASCADE');
             $table->decimal('idf', 5, 4);
             $table->timestamps();
         });
